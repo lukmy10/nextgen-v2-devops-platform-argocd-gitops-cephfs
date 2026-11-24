@@ -1,0 +1,18 @@
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystem
+metadata:
+  name: myfs
+  namespace: rook-ceph
+spec:
+  metadataPool:
+    replicated:
+      size: 3 # Replicating metadata across 3 nodes
+  dataPools:
+    - name: replicated
+      failureDomain: host # Replicating data across different hosts for high availability
+      replicated:
+        size: 3 # Data will be replicated across 3 nodes for redundancy
+  preserveFilesystemOnDelete: true
+  metadataServer:
+    activeCount: 1
+    activeStandby: true

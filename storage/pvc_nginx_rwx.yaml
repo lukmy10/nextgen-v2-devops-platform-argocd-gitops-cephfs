@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rbd-pvc-nginx-argocd-rwx
+  # namespace: jenkins # Odkomentuj i wpisz właściwy namespace, jeśli aplikujesz to z poziomu repozytorium Git/ArgoCD
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-ceph-fs

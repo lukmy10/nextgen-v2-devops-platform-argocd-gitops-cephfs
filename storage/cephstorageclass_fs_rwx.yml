@@ -1,0 +1,20 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: rook-ceph-fs
+provisioner: rook-ceph.cephfs.csi.ceph.com
+parameters:
+  clusterID: rook-ceph # Namespace of the Rook cluster
+  fsName: myfs # Name of the CephFilesystem created above
+  pool: myfs-replicated # Rook automatically prefixes the dataPool name with fsName
+
+  # Driver secrets for Rook-CephFS CSI
+  csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+  csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+  csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+  csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+
+allowVolumeExpansion: true # Allows for online expansion of volumes
+reclaimPolicy: Delete # Volume in Ceph is automatically deleted after PVC deletion
